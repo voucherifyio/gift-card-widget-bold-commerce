@@ -124,6 +124,10 @@ export default function Home() {
     }
   }, [giftCardOrder])
 
+  const continueShopping = () => {
+    window.parent.postMessage({type: 'GIFT_CARD_WIDGET_CONTINOUE_SHOPPING_CLICKED'}, '*')
+  }
+
   const giftCardAmountOptions: number[] = [50, 100, 150, 300]
 
   if (error)
@@ -466,19 +470,16 @@ export default function Home() {
                 You&apos;ll receive a confirmation email shortly,
                 outlining your purchase details for your records.
               </Text>
-              <NextLink
+              <Button
+                width="fit-content"
+                margin="28px"
+                padding="10px 24px"
+                variant="outline"
                 style={{ alignSelf: 'center' }}
-                href="/category/accessories"
+                onClick={continueShopping}
               >
-                <Button
-                  width="fit-content"
-                  margin="28px"
-                  padding="10px 24px"
-                  variant="outline"
-                >
-                  Continue Shopping
-                </Button>
-              </NextLink>
+                Continue Shopping
+              </Button>
             </Flex>
           </Flex>
         ) : null}
