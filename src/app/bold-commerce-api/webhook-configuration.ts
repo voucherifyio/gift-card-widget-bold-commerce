@@ -8,7 +8,23 @@ type ListWebhookResponse = {
   updated_at: string;
 };
 
-const registerFulfilledStatusWebhook = async (
+const registerWebhooks = async (accessToken: string, shopIdentifier: string, shared_secret: string) => {
+  const response = await fetch(`https://api.boldcommerce.com/checkout/shop/${shopIdentifier}/integration/config`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      shared_secret,
+    }),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+const createFulfilledStatusWebhook = async (
   shopIdentifier: string,
   accessToken: string,
   domain: string
@@ -20,7 +36,7 @@ const registerFulfilledStatusWebhook = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      webhook_topic_id: 1,
+      webhook_topic_id: 3,
       callback_url: domain + `api/webhook`,
     }),
   });
@@ -44,9 +60,14 @@ const listWebhooks = async (shopIdentifier: string, accessToken: string): Promis
 };
 
 const webhooksConfigurationHandler = async () => {
-  const { BOLD_COMMERCE_ACCESS_TOKEN, NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER, NEXTAUTH_URL } = process.env;
+  const {
+    BOLD_COMMERCE_ACCESS_TOKEN,
+    NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER,
+    NEXTAUTH_URL,
+    BOLD_COMMERCE_SHARED_SECRET,
+  } = process.env;
 
-  if (!BOLD_COMMERCE_ACCESS_TOKEN || !NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER) {
+  if (!BOLD_COMMERCE_ACCESS_TOKEN || !NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER || !BOLD_COMMERCE_SHARED_SECRET) {
     throw new Error("Missing Bold Commerce configuration");
   }
 
@@ -54,12 +75,18 @@ const webhooksConfigurationHandler = async () => {
     throw new Error("Missing domain configuration");
   }
 
+  await registerWebhooks(
+    BOLD_COMMERCE_ACCESS_TOKEN,
+    NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER,
+    BOLD_COMMERCE_SHARED_SECRET
+  );
+
   const STATUS_FULFILLED = "order/fulfilled";
   const listedWebhooks = await listWebhooks(NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER, BOLD_COMMERCE_ACCESS_TOKEN);
   const statusFulfilled = listedWebhooks?.find((webhook) => webhook.webhook_topic_name === STATUS_FULFILLED);
 
   if (!statusFulfilled) {
-    await registerFulfilledStatusWebhook(
+    await createFulfilledStatusWebhook(
       NEXT_PUBLIC_BOLD_COMMERCE_SHOP_IDENTIFIER,
       BOLD_COMMERCE_ACCESS_TOKEN,
       NEXTAUTH_URL
