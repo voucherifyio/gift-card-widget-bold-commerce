@@ -1,4 +1,3 @@
-import httpSignature from "http-signature";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,7 +9,6 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    console.log(body.application_state.payments, 'PAYMENTSs')
   } catch (error) {
     return new Response("Internal webhook error", { status: 401 });
   }
