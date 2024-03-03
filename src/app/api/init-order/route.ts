@@ -5,7 +5,7 @@ type Order = {
   public_order_id: string;
 };
 
-export async function POST(req: NextRequest): Promise<Order | Response> {
+export async function POST(req: NextRequest): Promise<Response> {
   const { amount: amountRequested } = await req.json();
 
   if (!amountRequested) {
