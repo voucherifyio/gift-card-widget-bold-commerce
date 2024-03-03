@@ -19,7 +19,7 @@ type CreateGiftCardParams = {
 export const generateGiftCard = async (params: CreateGiftCardParams) => {
   const { customer, voucherify } = params
 
-  const { customerId } = await createCustomer({ customer, voucherify })
+  const { customerId, customerSourceId } = await createCustomer({ customer, voucherify })
 
   try {
     const { campaignId } = await getCampaign({ voucherify })
@@ -27,6 +27,7 @@ export const generateGiftCard = async (params: CreateGiftCardParams) => {
     const { publicationCode } = await createPublicationCampaign({
       campaignId,
       customerId,
+      customerSourceId,
       voucherify,
     })
 
