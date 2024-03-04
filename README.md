@@ -65,3 +65,7 @@ Next if you want to work with widget in:
 - production mode, use `npm run build && npm run start`
 
 Bold Commerce require to connect with checkout API by trust `https` domains. In this case use [Ngrok](https://ngrok.com/) or other solution to generate domain with `SSL certificate`.
+
+## Other information
+### Webhooks
+Currently we don't handle webhooks even though there are implemented endpoints in the project. 
