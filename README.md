@@ -31,7 +31,7 @@ Gift card widget is self-hosted solution as an iframe, in that case you have to 
 ### Voucherify
 1. [Login](https://app.voucherify.io/#/login) to your account and go to project settings on the top right corner.
 2. Get your application keys
-3. [Create campaign](https://support.voucherify.io/article/47-prepaid-gift-cards-campaign) with bulk codes and optionally timeframe settings (if you prefer). Next set value to 0 and save campaign.
+3. [Create campaign](https://support.voucherify.io/article/47-prepaid-gift-cards-campaign) with bulk codes and optionally timeframe settings (if you prefer). Next set value to 0 and save campaign. The name of the campaign set in this project is called `Gift Cards From The Widget`. If you want to use other name, go to `src/voucherify/get-campaign.ts` and change for the name of campaign created in your Voucherify dashboard.
 
 ## How to run Gift Card Widget locally
 ### Credentials
