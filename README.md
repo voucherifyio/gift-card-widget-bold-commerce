@@ -13,7 +13,8 @@ We developed a widget for the store page to assist undecided shoppers in quickly
   - [Other .env configuration](#other-env-configuration)
   - [Important](#important)
   - [Installation](#installation)
-
+- [Other information](#other-information)
+  - [Webhooks](#webhooks)
 ## How it works
 ![Screenshot 2024-03-04 at 13 49 02](https://github.com/voucherifyio/gift-card-widget-bold-commerce/assets/77458595/ca5e25d9-73ed-46b8-8558-2195b160785c)
 
