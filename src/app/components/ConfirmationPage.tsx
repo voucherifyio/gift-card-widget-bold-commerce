@@ -1,5 +1,4 @@
 import { Flex, Text, Button } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
 
@@ -9,7 +8,9 @@ type ConfirmationPageProps = {
 
 const ConfirmationPage: FC<ConfirmationPageProps> = ({ generatedGiftCard }) => {
   const { getValues } = useFormContext();
-
+  const continueShopping = () => {
+    window.parent.postMessage({type: 'GIFT_CARD_WIDGET_CONTINOUE_SHOPPING_CLICKED'}, '*')
+  }
   return (
     <Flex
       direction={{ base: "column" }}
@@ -60,11 +61,9 @@ const ConfirmationPage: FC<ConfirmationPageProps> = ({ generatedGiftCard }) => {
           <span style={{ fontWeight: "900" }}>Keep Track:</span> You&apos;ll receive a confirmation email shortly,
           outlining your purchase details for your records.
         </Text>
-        <NextLink style={{ alignSelf: "center" }} href="/category/accessories">
-          <Button width="fit-content" margin="28px" padding="10px 24px" variant="outline">
+          <Button onClick={continueShopping} style={{ alignSelf: "center" }} width="fit-content" margin="28px" padding="10px 24px" variant="outline">
             Continue Shopping
           </Button>
-        </NextLink>
       </Flex>
     </Flex>
   );
